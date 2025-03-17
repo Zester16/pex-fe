@@ -1,13 +1,8 @@
-
-
-
-
+import { React } from "react";
 
 function Dashboard() {
-
-
-	return (<div>This is Dashboard</div>)
+  console.log("this id dashboard");
+  return <div>This is Dashboard</div>;
 }
 
-
-export default Dashboard
+export default Dashboard;
