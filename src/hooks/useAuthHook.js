@@ -5,10 +5,13 @@ import React, { useState, useContext, createContext } from "react";
 const authRequest = require("../network/authNetwork");
 const authorizationContext = createContext();
 function useAuth() {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(
+    localStorage.getItem("id") ? true : false
+  );
   const [jwt, setJwt] = useState(localStorage.getItem("id"));
 
-  const login = (jwt) => {
+  const addData = (jwt) => {
+    // console.log("login", jwt.token);
     localStorage.setItem("id", jwt.token);
     setJwt(jwt.token);
     setIsAuth(true);
@@ -21,28 +24,30 @@ function useAuth() {
   //initialize route
   const initialize = () => {
     const storage = localStorage.getItem("id");
-    console.log(storage);
+    //console.log(storage);
     if (storage.length > 5) {
       setJwt(storage);
       setIsAuth(true);
     }
   };
 
-  const errorHandler = (error) => {
-    if (error.statusCode === 401) {
-      const response = authRequest.getRefreshToken();
+  const errorHandler = async (error) => {
+    //console.log(error);
+    if (error.status === 401) {
+      const response = await authRequest.getRefreshToken();
+      //console.log("errorHndler", response);
       if (response.statusCode === 0) {
-        login(response);
+        addData(response);
       } else {
         alert("there is no token");
       }
     }
-    if (error.statusCode === 403) {
+    if (error.status === 403) {
       logout();
     }
   };
 
-  return { jwt, isAuth, login, logout, initialize, errorHandler };
+  return { jwt, isAuth, addData, logout, initialize, errorHandler };
 }
 
 export function AuthorizationContext({ children }) {
