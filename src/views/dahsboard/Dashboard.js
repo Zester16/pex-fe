@@ -7,10 +7,13 @@ function Dashboard() {
   async function checkStatus() {
     try {
       const response = await network.test(jwt);
-      //console.log(response);
+      console.log(response);
     } catch (error) {
       alert(error);
-      errorHandler(error);
+      const status = await errorHandler(error);
+      if (status) {
+        checkStatus();
+      }
     }
   }
   //console.log("this id dashboard");

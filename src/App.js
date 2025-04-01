@@ -4,6 +4,7 @@ import { AuthorizationContext } from "./hooks/useAuthHook";
 import RequiredAuth from "./auth/RequiredAuth";
 import Dashboard from "./views/dahsboard/Dashboard";
 import Login from "./views/login/Login";
+import Navbar from "./views/navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 
 function App() {

@@ -7,7 +7,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { addData } = useAuth();
-
+  const navigate = useNavigate();
   function handleSubmit(evt) {
     evt.preventDefault();
     submitEvent();
@@ -18,6 +18,7 @@ function Login() {
       //console.log("login-page-response", response);
 
       addData(response);
+      navigate("/");
     } catch (err) {
       //console.log("error", err);
     }

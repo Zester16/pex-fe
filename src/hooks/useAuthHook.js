@@ -33,11 +33,13 @@ function useAuth() {
 
   const errorHandler = async (error) => {
     //console.log(error);
+    let reload = false;
     if (error.status === 401) {
       const response = await authRequest.getRefreshToken();
       //console.log("errorHndler", response);
       if (response.statusCode === 0) {
         addData(response);
+        return true;
       } else {
         alert("there is no token");
       }
@@ -45,6 +47,7 @@ function useAuth() {
     if (error.status === 403) {
       logout();
     }
+    return false;
   };
 
   return { jwt, isAuth, addData, logout, initialize, errorHandler };
