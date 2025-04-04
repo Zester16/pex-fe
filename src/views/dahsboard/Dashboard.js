@@ -1,22 +1,21 @@
-import { React } from "react";
+import { React, useEffect } from "react";
 import useAuth from "../../hooks/useAuthHook";
 const network = require("../../network/authNetwork");
 function Dashboard() {
-  const { jwt, errorHandler } = useAuth();
+  const { errorHandler, getToken } = useAuth();
 
   async function checkStatus() {
     try {
-      const response = await network.test(jwt);
+      const response = await network.test(getToken());
       console.log(response);
     } catch (error) {
-      alert(error);
+      //alert(JSON.stringify(error));
       const status = await errorHandler(error);
-      if (status) {
+      if (status === true) {
         checkStatus();
       }
     }
   }
-  //console.log("this id dashboard");
   return (
     <div>
       This is Dashboard

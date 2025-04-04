@@ -39,6 +39,7 @@ function useAuth() {
       //console.log("errorHndler", response);
       if (response.statusCode === 0) {
         addData(response);
+
         return true;
       } else {
         alert("there is no token");
@@ -47,10 +48,13 @@ function useAuth() {
     if (error.status === 403) {
       logout();
     }
-    return false;
+    return reload;
   };
 
-  return { jwt, isAuth, addData, logout, initialize, errorHandler };
+  const getToken = () => {
+    return localStorage.getItem("id");
+  };
+  return { jwt, isAuth, addData, logout, initialize, errorHandler, getToken };
 }
 
 export function AuthorizationContext({ children }) {
