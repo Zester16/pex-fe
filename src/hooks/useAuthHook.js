@@ -16,10 +16,12 @@ function useAuth() {
     setJwt(jwt.token);
     setIsAuth(true);
   };
-  const logout = () => {
+  const logout = async () => {
+    const response = await authRequest.logout();
+    localStorage.removeItem("id");
+    console.log(response);
     setJwt(undefined);
     setIsAuth(false);
-    localStorage.removeItem("id");
   };
   //initialize route
   const initialize = () => {

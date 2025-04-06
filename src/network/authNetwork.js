@@ -44,7 +44,27 @@ module.exports.getLoginToken = (username, password) => {
     };
   });
 };
+module.exports.logout = () => {
+  return new Promise((resolve, reject) => {
+    const fullUrl = url + "/v1/user/logout";
 
+    const request = new XMLHttpRequest();
+    request.open("POST", fullUrl);
+
+    request.withCredentials = true;
+    request.credentials = "includes";
+
+    request.onload = function () {
+      const response = JSON.stringify(request.responseText);
+      response.status = request.status;
+      request.status === 200 && request.readyState == 4
+        ? resolve(response)
+        : reject(response);
+    };
+    request.setRequestHeader("Content-Type", "application/JSON");
+    request.send();
+  });
+};
 module.exports.test = (token) => {
   return new Promise((resolve, reject) => {
     const fullUrl = url + "/test";
