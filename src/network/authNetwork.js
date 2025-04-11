@@ -14,9 +14,8 @@ module.exports.getRefreshToken = () => {
     request.withCredentials = true;
     request.onload = function () {
       const response = JSON.parse(this.responseText);
-      request.status === 200 && request.readyState == 4
-        ? resolve(response)
-        : reject(response);
+      response.status = request.status;
+      resolve(response);
     };
 
     request.send();
@@ -32,9 +31,11 @@ module.exports.getLoginToken = (username, password) => {
     request.withCredentials = true;
     request.setRequestHeader("Content-Type", "application/JSON");
     request.onload = function () {
+      const response = JSON.parse(this.responseText);
+      response.status = request.status;
       request.status === 200 && request.readyState == 4
-        ? resolve(JSON.parse(this.responseText))
-        : reject(this.responseText);
+        ? resolve(response)
+        : reject(response);
     };
     //console.log(username, password);
     request.send(JSON.stringify({ username: username, password: password }));
