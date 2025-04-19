@@ -4,7 +4,7 @@ import { AuthorizationContext } from "./hooks/useAuthHook";
 import RequiredAuth from "./auth/RequiredAuth";
 import Dashboard from "./views/dahsboard/Dashboard";
 import Login from "./views/login/Login";
-import User from "./views/user/User";
+import UserComponent from "./views/user/UserComponent";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
             path="/user"
             element={
               <RequiredAuth>
-                <User />
+                <UserComponent />
               </RequiredAuth>
             }
           />

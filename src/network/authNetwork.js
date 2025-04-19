@@ -66,6 +66,7 @@ module.exports.logout = () => {
     request.send();
   });
 };
+//to get a user's session
 module.exports.test = (token) => {
   return new Promise((resolve, reject) => {
     const fullUrl = url + "/test";
@@ -85,6 +86,28 @@ module.exports.test = (token) => {
     };
     request.setRequestHeader("Authorization", `${token}`);
     request.setRequestHeader("Content-Type", "application/JSON");
+    request.send();
+  });
+};
+
+module.exports.getDevices = (token) => {
+  return new Promise((resolve, reject) => {
+    const fullUrl = url + "/v1/user/device";
+
+    const request = new XMLHttpRequest();
+    request.open("GET", fullUrl);
+    request.withCredentials = true;
+    request.credentials = "includes";
+
+    request.onload = function () {
+      const response = JSON.parse(request.responseText);
+      response.status = request.status;
+      request.status === 200 && request.readyState === 4
+        ? resolve(response)
+        : reject(response);
+    };
+    request.setRequestHeader("Content-Type", "application/JSON");
+    request.setRequestHeader("Authorization", token);
     request.send();
   });
 };
