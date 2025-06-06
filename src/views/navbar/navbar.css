@@ -1,0 +1,21 @@
+#navbar{
+    display: flex;
+    background-color: black;
+}
+#vertical-navbar-visible{
+    display: flex;
+    background-color: black;
+}
+#vertical-navbar-invincible{
+    width:0;
+    height:0;
+    visibility: collapse;
+}
+#horizontal-nav{
+    display: flex;
+
+}
+
+.nav-words{
+    color: white;;
+}
