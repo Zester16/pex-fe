@@ -4,19 +4,23 @@ import DevicesIndividual from "./DevicesIndividualChild";
 import newtwork from "../../network/authNetwork";
 
 function DevicesChild() {
-  const { getToken } = useAuth();
+  const { getToken,errorHandler } = useAuth();
   const [devices, setDevices] = useState([]);
 
   //for getting all token data
   async function getDevices() {
     try {
       const token = getToken();
-      console.log(token);
+      //console.log(token);
       const response = await newtwork.getDevices(token);
-      console.log(response);
+      //console.log(response);
       setDevices(response.data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
+      const status = await errorHandler(error);
+      if (status === true) {
+        getDevices()
+      }
     }
   }
   useEffect(() => {

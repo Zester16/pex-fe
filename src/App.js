@@ -5,6 +5,7 @@ import RequiredAuth from "./auth/RequiredAuth";
 import Dashboard from "./views/dahsboard/Dashboard";
 import Login from "./views/login/Login";
 import UserComponent from "./views/user/UserComponent";
+import NewspaperComponent from "./views/newspaper/NewspaperComponent";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -27,6 +28,15 @@ function App() {
             element={
               <RequiredAuth>
                 <UserComponent />
+              </RequiredAuth>
+            }
+          />
+                    <Route
+            exact
+            path="/newspaper"
+            element={
+              <RequiredAuth>
+                <NewspaperComponent />
               </RequiredAuth>
             }
           />
