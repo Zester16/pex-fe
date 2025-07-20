@@ -18,10 +18,17 @@ export default function AddNewsPaperModel(props){
 
     function checkAndAddNews(evt){
         evt.preventDefault();
+        
         if (newspaperImageUrl === "" || newspaperName===""|newspaperUrl==="" ){
             alert("Kindly fill all details")
         }else{
-            props.addNewNewspaper(newspaperName,newspaperUrl,newspaperImageUrl)
+            if(!newspaperImageUrl.includes("https://")){
+              alert("Image url is not a url")
+            }
+            else{
+              props.addNewNewspaper(newspaperName,newspaperUrl,newspaperImageUrl)
+            }
+            
         }
     }
     return(<div>
