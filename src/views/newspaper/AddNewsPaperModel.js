@@ -53,7 +53,7 @@ export default function AddNewsPaperModel(props){
           />
           </div>
           
-          <label htmlFor="newspaperimageurl">Newspaper Name: </label>
+          <label htmlFor="newspaperimageurl">Newspaper Logo Url: </label>
             <input
             name="newspaperimageurl"
             input={newspaperImageUrl}

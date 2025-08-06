@@ -67,3 +67,28 @@ module.exports.getAllNewspaper = (token, id) => {
   });
   
 };
+
+//get all newspapers to populate dropdown
+module.exports.getAllNewspapersNonPaginated=(token)=>{
+  return new Promise((resolve,reject)=>{
+    const request = new XMLHttpRequest();
+    let fullUrl = url + "/v1/newspaper/all-newspapers" 
+    request.open("GET", fullUrl);
+    request.withCredentials = true;
+    request.credentials = "includes";
+    request.setRequestHeader("Content-Type", "application/JSON");
+    request.setRequestHeader("Authorization", token);
+
+    request.onload = function(){
+      let response = JSON.parse(this.responseText)
+      response.status = request.status;
+      if (request.status === 200 && request.readyState ===4){
+        resolve(response)
+      }else{
+        reject(response)
+      }
+    }
+
+    request.send()
+  })
+}
