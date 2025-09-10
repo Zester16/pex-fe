@@ -25,8 +25,8 @@ export default function ShowAllNewspaperModel() {
     
     setCurrentCount(currentCount+newspaperList.length)
     //console.log("cc:",newspapers.length,"tnc",totalNewspaperCount,"total",total)
-    console.log(newspapers)
-    if(newspapers.length>=total){
+    //console.log(newspapers)
+    if(newspapers.length===total){
       setButtonVisible(false)
     }else{
       setButtonVisible(true)
@@ -46,12 +46,12 @@ export default function ShowAllNewspaperModel() {
        
         }else{
           response = await newtwork.getAllNewspaper(token)
-          setNewspapers(response.data)
+          setNewspapers([...response.data])
           setCurrentCount(response.data.length)
         }
         
        console.log(newspapers) 
-        setMoreNewsLogic(response.data,response.total,notFirstRun)
+       setMoreNewsLogic(response.data,response.total,notFirstRun)
         //:setMoreNewsLogic(response.data,response.total,false)
 
     }catch(error){
@@ -62,10 +62,16 @@ export default function ShowAllNewspaperModel() {
   }
 
   function loadMoreButton(){
-    setButtonVisible(false)
-    const id = lastId
-    console.log(lastId)
-    getAllNewspapers(id,true)
+    if (newspapers.length >=totalNewspaperCount){
+      alert("There are no more newspapers")
+      setButtonVisible(false)
+    }else{
+      setButtonVisible(false)
+      const id = lastId
+      //console.log(lastId)
+      getAllNewspapers(id,true)
+    }
+
   }
 
   return(<div>

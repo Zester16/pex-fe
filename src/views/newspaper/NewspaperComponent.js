@@ -4,12 +4,16 @@ import useAuth from "../../hooks/useAuthHook";
 import AddNewsPaperModel from "./AddNewsPaperModel";
 import ShowAllNewspaperModel from "./newspaperModel/AllNewspaperModel";
 import AddNewsReadModel from "./AddNewsReadModel";
+import AllNewsReadComponnent from "./newsReadModel/AllNewsReadComponent";
+
 
 //Main Dashboard Showing newspapers and other data
 export default function NewspaperComponent() {
   const [addNewsState, setAddNewsState] = useState(false); //for displaying add newspaper model
   const [addNewsReadState,setAddNewsReadState] = useState(false); //for displaying add newsread component
+  const [newsRead,setNewsread]=useState([])
   const { errorHandler, getToken } = useAuth();
+  useEffect(()=>{setNewsReadInit()},[])
   //open and close model function
   function showAddNewsModel() {
     setAddNewsState(true);
@@ -29,25 +33,42 @@ export default function NewspaperComponent() {
   async function addNewNewspaper(newsName, newsUrl, newsImage) {
     try {
       const token = getToken();
-      const response = newtwork.addNewspaper(
+      const response = await newtwork.addNewspaper(
         token,
         newsName,
         newsUrl,
         newsImage,
       );
-      closeAddNewsModel()
     } catch (error) {
       const errorStatus = errorHandler(error);
 
       if (errorStatus) {
-        addNewNewspaper(newsName, newsUrl, newsImage)
+      return  addNewNewspaper(newsName, newsUrl, newsImage)
       }else{
-        alert(error.data)
+        alert(JSON.stringify(error.data))
+        console.log("error",error)
       }
     }
+  
   }
   //add newspaper read
-
+  async function addNewspaperRead(newspaperId,dateSelected){
+      try{
+        const token = getToken()
+        console.log(dateSelected)
+        let dateTounix = Math.floor(new Date(dateSelected).getTime() / 1000)
+        console.log(dateTounix)
+        const result = await newtwork.addNewsRead(token,newspaperId,dateTounix)
+        setAddNewsReadState(false)
+        closeAddNewsReadModel()
+        return result
+      }
+      catch(error){
+        //alert(JSON.stringify(error))
+        console.log(error)
+        return null
+      }
+  }
 //get newspapers list
 async function getAllNewspapers(){
   try {
@@ -66,8 +87,32 @@ async function getAllNewspapers(){
     }
   }
 }
+//get all newsread list
+async function getAllNewsRead(){
+  try {
+    const token = getToken();
+    const response = await newtwork.getAllNewsReadNonPaginated(token)
+
+    return response.data
+    
+  } catch (error) {
+    const errorStatus = errorHandler(error);
+
+    if (errorStatus) {
+      return getAllNewsRead()
+    }else{
+      return []
+    }
+  }
+}
+async function setNewsReadInit(){
+  const response = await getAllNewsRead()
+  console.log("newsread response: ",response)
+  setNewsread([...response])
+}
+//<ShowAllNewspaperModel />
   return (
-    <div>
+    <div>                   
       <div>
         <button onClick={showAddNewsModel}>Add Newspaper</button>
         <button onClick={showAddNewsReadModel}>Add News</button>
@@ -76,12 +121,13 @@ async function getAllNewspapers(){
         <AddNewsPaperModel
           closeModel={closeAddNewsModel}
           addNewNewspaper={addNewNewspaper}
-        />
+        />    
       ) : (
         <></>
       )}
-      {addNewsReadState?(<AddNewsReadModel closeModel={closeAddNewsReadModel} allNewspapers={getAllNewspapers}/>):(<></>)}
-      <ShowAllNewspaperModel />
+      {addNewsReadState?(<AddNewsReadModel closeModel={closeAddNewsReadModel} allNewspapers={getAllNewspapers} addNewspaperRead={addNewspaperRead}/>):(<></>)}
+      
+      <AllNewsReadComponnent newsRead={newsRead}/>
     </div>
   );
 }

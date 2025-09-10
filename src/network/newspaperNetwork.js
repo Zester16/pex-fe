@@ -2,6 +2,8 @@
  * Performs network call for anything related to newspaper
  */
 
+const { baseUrl } = require("../helper/setBaseUrl");
+
 const url = require("../helper/setBaseUrl").baseUrl;
 
 //network call to add a newspaper
@@ -35,6 +37,34 @@ module.exports.addNewspaper = (token, newsName, newsImage, newsUrl) => {
   });
 };
 
+//network call to add newspaper read
+module.exports.addNewsRead=(token,newspaperId,dateSelected)=>{
+
+  return new Promise((resolve,reject)=>{
+    const request = new XMLHttpRequest();
+
+    let fullUrl = baseUrl+  "/v1/news-read"
+    request.open("POST",fullUrl)
+    request.withCredentials = true;
+    request.setRequestHeader("Content-Type", "application/JSON");
+    request.setRequestHeader("Authorization", token);
+    request.onLoad = function(){
+      let response = JSON.parse(this.responseText)
+      response.status=request.status
+
+      request.status===200 &request.readyState ===4?resolve(response):reject(response)
+      
+    }
+    request.send(JSON.stringify({
+      read_at:dateSelected,
+      newspaper_id:newspaperId
+    }))
+    request.onerror = function (error) {
+      reject(error);
+    };
+  })
+  
+}
 //network call to get paginated newspaper
 module.exports.getAllNewspaper = (token, id) => {
   return new Promise((resolve, reject) => {
@@ -90,5 +120,28 @@ module.exports.getAllNewspapersNonPaginated=(token)=>{
     }
 
     request.send()
+  })
+}
+
+//get all news read not paginated 
+module.exports.getAllNewsReadNonPaginated=(token)=>{
+  return new Promise((resolve,reject)=>{
+    const request = new XMLHttpRequest();
+    const fullUrl = url+"/v1/news-read/all-read"
+    request.open("GET", fullUrl);
+    request.withCredentials = true;
+    request.credentials = "includes";
+    request.setRequestHeader("Content-Type", "application/JSON");
+    request.setRequestHeader("Authorization", token);
+    request.onload = function(){
+      let response = JSON.parse(this.responseText)
+      response.status = request.status;
+      if (request.status === 200 && request.readyState ===4){
+        resolve(response)
+      }else{
+        reject(response)
+      } 
+    }
+    request.send();
   })
 }
