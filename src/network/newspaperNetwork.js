@@ -16,7 +16,7 @@ module.exports.addNewspaper = (token, newsName, newsImage, newsUrl) => {
     request.withCredentials = true;
     request.setRequestHeader("Content-Type", "application/JSON");
     request.setRequestHeader("Authorization", token);
-    request.onLoad = function () {
+    request.onload = function () {
       const response = JSON.parse(this.responseText);
       response.status = request.status;
       request.status === 200 && request.readyState == 4
@@ -48,11 +48,11 @@ module.exports.addNewsRead=(token,newspaperId,dateSelected)=>{
     request.withCredentials = true;
     request.setRequestHeader("Content-Type", "application/JSON");
     request.setRequestHeader("Authorization", token);
-    request.onLoad = function(){
+    request.onload = function(){
       let response = JSON.parse(this.responseText)
       response.status=request.status
 
-      request.status===200 &request.readyState ===4?resolve(response):reject(response)
+      if(request.readyState ===4 &request.status===200 ){resolve(response)}else{reject(response)}
       
     }
     request.send(JSON.stringify({
@@ -60,6 +60,7 @@ module.exports.addNewsRead=(token,newspaperId,dateSelected)=>{
       newspaper_id:newspaperId
     }))
     request.onerror = function (error) {
+      console.log("error",error)
       reject(error);
     };
   })

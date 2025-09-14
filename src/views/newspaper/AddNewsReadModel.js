@@ -36,7 +36,7 @@ function AddNewsReadModel(props){
           alert("Date is not selected")
           return
         }
-        props.closeModel()
+        //props.closeModel()
         const response = await props.addNewspaperRead(selectedValue,selectedDate)
         console.log("AddNewsReadModel",response)
         //if(response){

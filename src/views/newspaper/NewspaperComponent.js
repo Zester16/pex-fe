@@ -55,16 +55,21 @@ export default function NewspaperComponent() {
   async function addNewspaperRead(newspaperId,dateSelected){
       try{
         const token = getToken()
-        console.log(dateSelected)
+        //console.log(dateSelected)
         let dateTounix = Math.floor(new Date(dateSelected).getTime() / 1000)
-        console.log(dateTounix)
+        //console.log(dateTounix)
         const result = await newtwork.addNewsRead(token,newspaperId,dateTounix)
-        setAddNewsReadState(false)
+        //setAddNewsReadState(false)
+        await setNewsReadInit()
         closeAddNewsReadModel()
-        return result
+        
       }
       catch(error){
+        console.log("addNewsreadError:",error)
         //alert(JSON.stringify(error))
+        if(error.statusCode ===1){
+          alert(error.statusMessage)
+        }
         console.log(error)
         return null
       }
