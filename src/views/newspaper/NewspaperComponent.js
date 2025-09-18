@@ -70,7 +70,7 @@ export default function NewspaperComponent() {
         if(error.statusCode ===1){
           alert(error.statusMessage)
         }
-        console.log(error)
+        //console.log(error)
         return null
       }
   }
