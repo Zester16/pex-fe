@@ -20,7 +20,7 @@ function Login() {
       addData(response);
       navigate("/");
     } catch (err) {
-      //console.log("error", err);
+      alert("some error happened, please try again")
     }
   }
   return (
