@@ -21,6 +21,7 @@ function NewsReadComponent(props){
                 read_at={read.read_at}
                 name={read.name}
                 image_url={read.image_url}
+                read_status={read.read_status}
             />)})}
             </tbody>
     </table>    
