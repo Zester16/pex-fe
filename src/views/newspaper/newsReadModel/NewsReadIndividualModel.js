@@ -8,7 +8,7 @@ export default function NewsReadIndividualModel(props){
       <td> <img src={props.image_url} alt={props.name} height="50px"width="100px"/></td>
       <td>{formatLocalDateFromEpoch(props.read_at)}</td>
       <td>{props.name}</td>
-      <td></td>
+      <td>{props.read_status}</td>
     </tr>
     )
 }

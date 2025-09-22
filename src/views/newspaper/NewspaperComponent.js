@@ -9,26 +9,49 @@ import AllNewsReadComponnent from "./newsReadModel/AllNewsReadComponent";
 
 //Main Dashboard Showing newspapers and other data
 export default function NewspaperComponent() {
-  const [addNewsState, setAddNewsState] = useState(false); //for displaying add newspaper model
-  const [addNewsReadState,setAddNewsReadState] = useState(false); //for displaying add newsread component
+  //const [addNewsState, setAddNewsState] = useState(false); //for displaying add newspaper model
+  //const [addNewsReadState,setAddNewsReadState] = useState(false); //for displaying add newsread component
   const [newsRead,setNewsread]=useState([])
   const { errorHandler, getToken } = useAuth();
+  const [currentDashView,setCurrentDashView] = useState("null")
+
+  const currentViewConstants={addNewspaper:"add-news-paper",addNewsRead:"add-newspaper-read",close:"null",newspaperList:"news-paper-list"}
   useEffect(()=>{setNewsReadInit()},[])
   //open and close model function
   function showAddNewsModel() {
-    setAddNewsState(true);
+    //setAddNewsState(true);
+    setCurrentDashView(currentViewConstants.addNewspaper)
   }
-  function closeAddNewsModel() {
-    setAddNewsState(false);
+  function closeCurrentView() {
+    setCurrentDashView(currentViewConstants.close)
   }
 
     //open and close AddNewsRead model function
     function showAddNewsReadModel() {
-      setAddNewsReadState(true);
+      //setAddNewsReadState(true);
+      setCurrentDashView(currentViewConstants.addNewsRead)
     }
-    function closeAddNewsReadModel() {
-      setAddNewsReadState(false);
+
+    function showAllNewspapers(){
+      setCurrentDashView(currentViewConstants.newspaperList)
     }
+
+  function setMainView(){
+    switch(currentDashView){
+      case currentViewConstants.newspaperList:
+        return <ShowAllNewspaperModel />
+      case currentViewConstants.addNewsRead:
+        return <AddNewsReadModel closeModel={closeCurrentView} allNewspapers={getAllNewspapers} addNewspaperRead={addNewspaperRead}/>
+      case currentViewConstants.addNewspaper:
+        return <AddNewsPaperModel
+          closeModel={closeCurrentView}
+          addNewNewspaper={addNewNewspaper}
+        />
+      default: return <AllNewsReadComponnent newsRead={newsRead}/>
+    }
+   
+  }
+    //***NETWORK HANDLE *****/
   //handle create new newspaper
   async function addNewNewspaper(newsName, newsUrl, newsImage) {
     try {
@@ -61,7 +84,7 @@ export default function NewspaperComponent() {
         const result = await newtwork.addNewsRead(token,newspaperId,dateTounix)
         //setAddNewsReadState(false)
         await setNewsReadInit()
-        closeAddNewsReadModel()
+        closeCurrentView()
         
       }
       catch(error){
@@ -120,19 +143,11 @@ async function setNewsReadInit(){
     <div>                   
       <div>
         <button onClick={showAddNewsModel}>Add Newspaper</button>
-        <button onClick={showAddNewsReadModel}>Add News</button>
+        <button onClick={showAddNewsReadModel}>Add Newsread</button> 
+        <button onClick={showAllNewspapers}>Show All Newspapers</button>
       </div>
-      {addNewsState ? (
-        <AddNewsPaperModel
-          closeModel={closeAddNewsModel}
-          addNewNewspaper={addNewNewspaper}
-        />    
-      ) : (
-        <></>
-      )}
-      {addNewsReadState?(<AddNewsReadModel closeModel={closeAddNewsReadModel} allNewspapers={getAllNewspapers} addNewspaperRead={addNewspaperRead}/>):(<></>)}
+      {setMainView()}
       
-      <AllNewsReadComponnent newsRead={newsRead}/>
     </div>
   );
 }
