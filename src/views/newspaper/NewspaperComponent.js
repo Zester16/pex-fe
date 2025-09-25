@@ -36,6 +36,7 @@ export default function NewspaperComponent() {
       setCurrentDashView(currentViewConstants.newspaperList)
     }
 
+    //sets dashboard view as per selection
   function setMainView(){
     switch(currentDashView){
       case currentViewConstants.newspaperList:
