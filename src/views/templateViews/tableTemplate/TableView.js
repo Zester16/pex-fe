@@ -1,6 +1,6 @@
 import {React,useState} from "react"
 import TableRowModel from "./TableRowModel"
-import closeImage from "../../assets/close.svg"
+import closeImage from "../../../assets/close.svg"
 
 
 /**

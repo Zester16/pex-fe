@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import newtwork from "../../../network/newspaperNetwork";
 import useAuth from "../../../hooks/useAuthHook";
-import TableView from "../../templateViews/TableView";
+import TableView from "../../templateViews//tableTemplate/TableView";
 export default function ShowAllNewspaperModel(props) {
   const { errorHandler, getToken } = useAuth();
   const [lastId, setLastId] = useState("");
