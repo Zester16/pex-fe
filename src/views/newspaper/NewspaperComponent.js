@@ -40,7 +40,7 @@ export default function NewspaperComponent() {
   function setMainView(){
     switch(currentDashView){
       case currentViewConstants.newspaperList:
-        return <ShowAllNewspaperModel />
+        return <ShowAllNewspaperModel closeModel={closeCurrentView}/>
       case currentViewConstants.addNewsRead:
         return <AddNewsReadModel closeModel={closeCurrentView} allNewspapers={getAllNewspapers} addNewspaperRead={addNewspaperRead}/>
       case currentViewConstants.addNewspaper:

@@ -1,15 +1,17 @@
 import {React,useState} from "react"
 import TableRowModel from "./TableRowModel"
+import closeImage from "../../assets/close.svg"
 
 
 /**
  * 
  * @param {*} props 
- * @returns props has two parts props:{header:[],rows:[] } 
+ * @returns props has three parts props:{header:[],rows:[],closeModel:funcToClose } 
  */
 export default function TableView(props){
 
     return(<div>
+        {props.closeModel? <img src={closeImage} onClick={props.closeModel} />:<></>}
         <table>
             <thead>
                 <tr>

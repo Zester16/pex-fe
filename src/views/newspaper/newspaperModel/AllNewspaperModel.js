@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import newtwork from "../../../network/newspaperNetwork";
 import useAuth from "../../../hooks/useAuthHook";
 import TableView from "../../templateViews/TableView";
-export default function ShowAllNewspaperModel() {
+export default function ShowAllNewspaperModel(props) {
   const { errorHandler, getToken } = useAuth();
   const [lastId, setLastId] = useState("");
   const [totalNewspaperCount, setTotalNewspaperCount] = useState(0);
@@ -71,8 +71,7 @@ export default function ShowAllNewspaperModel() {
 const  headers = ["Name","Image Url","Total Read"]
   return(<div>
 <h1>Newspapers </h1>
-<TableView headers={headers} rows={newspapers.map((news)=>{return {id:news.id,name:news.name,imageUrl:news.image_url,totalRead:news.total_read}})}/>
-{/* {newspapers.map((news)=>{return <div key={news.id}>{news.name}</div>})} */}
+<TableView closeModel={props.closeModel} headers={headers} rows={newspapers.map((news)=>{return {id:news.id,name:news.name,imageUrl:news.image_url,totalRead:news.total_read}})}/>
     <button style={{ display: buttonVisible ?  'block' :'none'}}onClick={()=>{loadMoreButton()}}>Load More</button>
   </div>)
 }
