@@ -37,6 +37,34 @@ module.exports.addNewspaper = (token, newsName, newsImage, newsUrl) => {
   });
 };
 
+
+//network call yo update newsRead
+module.exports.updateNewsRead = (token,newsreadId,status)=>{
+  return new Promise((resolve,reject)=>{
+    const fullurl = url+`/v1/news-read/${newsreadId}/update-news-read-status`
+    const request = new XMLHttpRequest();
+    request.open("PATCH",fullurl)
+    request.withCredentials = true;
+    //request.credentials = "includes";
+    request.setRequestHeader("Content-Type", "application/JSON");
+    request.setRequestHeader("Authorization", token);
+    request.setRequestHeader("Readstatus",status)
+    request.onload = function(){
+      let response = JSON.parse(this.responseText)
+      response.status=request.status
+
+      if(request.readyState ===4 &request.status===200 ){resolve(response)}else{reject(response)}
+      
+    }
+    request.send()
+    request.onerror = function (error) {
+      console.log("error",error)
+      reject(error);
+    };
+    
+  })
+}
+
 //network call to add newspaper read
 module.exports.addNewsRead=(token,newspaperId,dateSelected)=>{
 
