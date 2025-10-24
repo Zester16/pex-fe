@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import newtwork from "../../network/newspaperNetwork";
+import newtwork, { updateNewsRead } from "../../network/newspaperNetwork";
 import useAuth from "../../hooks/useAuthHook";
 import AddNewsPaperModel from "./AddNewsPaperModel";
 import ShowAllNewspaperModel from "./newspaperModel/AllNewspaperModel";
@@ -36,10 +36,11 @@ export default function NewspaperComponent() {
       setCurrentDashView(currentViewConstants.newspaperList)
     }
 
+    //sets dashboard view as per selection
   function setMainView(){
     switch(currentDashView){
       case currentViewConstants.newspaperList:
-        return <ShowAllNewspaperModel />
+        return <ShowAllNewspaperModel closeModel={closeCurrentView}/>
       case currentViewConstants.addNewsRead:
         return <AddNewsReadModel closeModel={closeCurrentView} allNewspapers={getAllNewspapers} addNewspaperRead={addNewspaperRead}/>
       case currentViewConstants.addNewspaper:
@@ -47,7 +48,7 @@ export default function NewspaperComponent() {
           closeModel={closeCurrentView}
           addNewNewspaper={addNewNewspaper}
         />
-      default: return <AllNewsReadComponnent newsRead={newsRead}/>
+      default: return <AllNewsReadComponnent newsRead={newsRead} updateNewsReadStatus={updateNewsreadStatus}/>
     }
    
   }
@@ -96,6 +97,28 @@ export default function NewspaperComponent() {
         //console.log(error)
         return null
       }
+  }
+  async function updateNewsreadStatus(newsreadId,status){
+    try{
+      const token = getToken()
+      //console.log(dateSelected)
+    
+      //console.log(dateTounix)
+      const result = await newtwork.updateNewsRead(token,newsreadId,status)
+      //setAddNewsReadState(false)
+      await setNewsReadInit()
+      closeCurrentView()
+      
+    }
+    catch(error){
+      console.log("addNewsreadError:",error)
+      //alert(JSON.stringify(error))
+      if(error.statusCode ===1){
+        alert(error.statusMessage)
+      }
+      //console.log(error)
+      return null
+    }
   }
 //get newspapers list
 async function getAllNewspapers(){
