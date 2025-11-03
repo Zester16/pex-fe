@@ -14,6 +14,7 @@ module.exports.addNewspaper = (token, newsName, newsImage, newsUrl) => {
 
     request.open("POST", fullUrl);
     request.withCredentials = true;
+    request.credentials = "includes";
     request.setRequestHeader("Content-Type", "application/JSON");
     request.setRequestHeader("Authorization", token);
     request.onload = function () {
@@ -45,7 +46,7 @@ module.exports.updateNewsRead = (token,newsreadId,status)=>{
     const request = new XMLHttpRequest();
     request.open("PATCH",fullurl)
     request.withCredentials = true;
-    //request.credentials = "includes";
+    request.credentials = "includes";
     request.setRequestHeader("Content-Type", "application/JSON");
     request.setRequestHeader("Authorization", token);
     request.setRequestHeader("Readstatus",status)
@@ -74,6 +75,7 @@ module.exports.addNewsRead=(token,newspaperId,dateSelected)=>{
     let fullUrl = baseUrl+  "/v1/news-read"
     request.open("POST",fullUrl)
     request.withCredentials = true;
+    request.credentials = "includes";
     request.setRequestHeader("Content-Type", "application/JSON");
     request.setRequestHeader("Authorization", token);
     request.onload = function(){
