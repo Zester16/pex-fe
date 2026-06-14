@@ -18,7 +18,7 @@ function UserComponent() {
   }
   return (
     <div>
-      <h1>This is User</h1>
+      <h1>V:0_0_3</h1>
       <button onClick={logOutUser}>Log Out</button>
       <DevicesChild />
     </div>
