@@ -7,6 +7,7 @@ import Login from "./views/login/Login";
 import UserComponent from "./views/user/UserComponent";
 import NewspaperComponent from "./views/newspaper/NewspaperComponent";
 import { Route, Routes } from "react-router-dom";
+import BooksComponent from "./views/books/Books";
 
 function App() {
   return (
@@ -37,6 +38,15 @@ function App() {
             element={
               <RequiredAuth>
                 <NewspaperComponent />
+              </RequiredAuth>
+            }
+          />
+                              <Route
+            exact
+            path="/books"
+            element={
+              <RequiredAuth>
+                <BooksComponent />
               </RequiredAuth>
             }
           />

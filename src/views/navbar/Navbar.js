@@ -21,8 +21,19 @@ function Navbar() {
     setNavOpen(!status)
   }
 
+  /**
+   * TODO: Modularize this function
+   */
   function moveToNewspaper(){
-navigate("/newspaper")
+    const status = navOpen
+    setNavOpen(!status)
+    navigate("/newspaper")
+  }
+
+  function moveToBooks(){
+    const status = navOpen
+    setNavOpen(!status)
+    navigate("/books")
   }
 
   return (
@@ -32,7 +43,7 @@ navigate("/newspaper")
         <div className="nav-words" onClick={moveToNewspaper}>
           <img src={newspaperLogo} className="nav-indie-icon"/>Newspaper
         </div>
-        <div className="nav-words">
+        <div className="nav-words" onClick={moveToBooks} >
         <img src={bookLogo} className="nav-indie-icon"/>Books
         </div>
       </div>
